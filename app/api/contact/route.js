@@ -53,11 +53,16 @@ export async function POST(request) {
     );
   }
 
+  // The Crypto Workflow ZIP lives in /public, so it's served at the app's own
+  // origin. Derive an absolute URL from the request (works in dev and on Vercel),
+  // unless WORKFLOW_ZIP_URL explicitly overrides it (e.g. a CDN link).
+  const ZIP_FILE = 'RevRex_Digital_Asset_Workflow_LatinoTaxFest2026.zip';
+  const origin = new URL(request.url).origin;
+
   // Download links for the bundle delivery email (set in .env / Vercel).
   const links = {
-    deck1: process.env.DECK_1_URL || '',
-    deck2: process.env.DECK_2_URL || '',
-    zip: process.env.WORKFLOW_ZIP_URL || '',
+    presentations: process.env.PRESENTATIONS_URL || '',
+    workflow: process.env.WORKFLOW_ZIP_URL || `${origin}/${ZIP_FILE}`,
   };
 
   try {

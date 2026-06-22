@@ -134,13 +134,14 @@ export function leadNotificationEmail(lead, company) {
 
 /**
  * Bundle-delivery email sent to the contact who signed up.
- * `links` = { deck1, deck2, zip } (any may be empty — buttons are conditional).
+ * `links` = { presentations, workflow } (any may be empty — buttons are conditional).
  */
 export function welcomeEmail(lead, company, links = {}) {
   const buttons =
-    (links.deck1 ? button(links.deck1, '📘  Deck 1 — AI: Threat or Asset') : '') +
-    (links.deck2 ? button(links.deck2, '₿  Deck 2 — Digital Assets Opportunity') : '') +
-    (links.zip ? button(links.zip, '📦  Download the Crypto Workflow Toolkit') : '');
+    (links.presentations
+      ? button(links.presentations, '📊  Download Presentations (English &amp; Spanish)')
+      : '') +
+    (links.workflow ? button(links.workflow, '📦  Download Crypto Workflow Toolkit (ZIP)') : '');
 
   const fallback = !buttons
     ? `<p style="margin:0 0 8px;color:${COLORS.muted};font-size:14px;">Your download links are being prepared and will arrive shortly.</p>`
@@ -152,7 +153,8 @@ export function welcomeEmail(lead, company, links = {}) {
                 letter-spacing:0.04em;text-transform:uppercase;margin-bottom:16px;">Your Bundle Is Ready</div>
     <h1 style="margin:0 0 8px;color:${COLORS.text};font-size:24px;line-height:1.2;">Thanks, ${esc(lead.name)} 👋</h1>
     <p style="margin:0 0 22px;color:${COLORS.muted};font-size:15px;line-height:1.6;">
-      Here's your Latino Tax Fest follow-up bundle &mdash; both presentation decks plus the updated
+      Here's your Latino Tax Fest follow-up bundle &mdash; both presentation decks in
+      <strong style="color:${COLORS.text};">English &amp; Spanish</strong> (4 files) plus the updated
       <strong style="color:${COLORS.text};">Crypto Workflow Toolkit</strong>. Grab everything below.
     </p>
     ${buttons}${fallback}
@@ -184,9 +186,10 @@ export function welcomeEmail(lead, company, links = {}) {
     text:
       `Hi ${lead.name},\n\n` +
       `Thanks for signing up with ${company}. Here's your Latino Tax Fest bundle:\n\n` +
-      (links.deck1 ? `Deck 1 (AI: Threat or Asset): ${links.deck1}\n` : '') +
-      (links.deck2 ? `Deck 2 (Digital Assets Opportunity): ${links.deck2}\n` : '') +
-      (links.zip ? `Crypto Workflow Toolkit (ZIP): ${links.zip}\n` : '') +
+      (links.presentations
+        ? `Presentations (English & Spanish, 4 files): ${links.presentations}\n`
+        : '') +
+      (links.workflow ? `Crypto Workflow Toolkit (ZIP): ${links.workflow}\n` : '') +
       `\nInside the toolkit: welcome guide, intake questionnaire, documentation workbook, ` +
       `file organization template, legislative quick reference, and annual review calendar.\n\n` +
       `Questions? Just reply to this email.\n\n${company}`,
