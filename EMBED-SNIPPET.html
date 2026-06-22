@@ -1,0 +1,114 @@
+<!-- ============================================================= -->
+<!--  RevRex signup form — paste this whole block into your page.   -->
+<!--  STEP 1: replace YOUR-APP-URL below with your deployed app URL  -->
+<!--          (the Vercel/host domain that runs /api/contact).       -->
+<!-- ============================================================= -->
+<div id="revrex-signup"></div>
+
+<script>
+(function () {
+  // ▼▼▼  SET THIS to your deployed app's API endpoint  ▼▼▼
+  var REVREX_API = "https://YOUR-APP-URL/api/contact";
+  // ▲▲▲  e.g. https://revrex-forms.vercel.app/api/contact  ▲▲▲
+
+  var REDIRECT_AFTER = ""; // optional: e.g. "thank-you.html" — leave "" to stay on page
+
+  var styles = ''
+    + '#revrex-signup *{box-sizing:border-box}'
+    + '.rrx-card{max-width:460px;margin:0 auto;padding:26px;border-radius:22px;'
+    +   'border:1px solid rgba(229,187,101,.38);background:rgba(7,17,31,.85);'
+    +   'box-shadow:0 18px 60px rgba(0,0,0,.28);'
+    +   'font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#f4f7fb}'
+    + '.rrx-title{margin:0 0 6px;font-size:22px;font-weight:800;letter-spacing:-.01em}'
+    + '.rrx-sub{margin:0 0 18px;font-size:14px;color:#b8c4d8}'
+    + '.rrx-form{display:grid;gap:16px}'
+    + '.rrx-field{display:grid;gap:7px;font-size:14px;font-weight:700;color:#f4f7fb}'
+    + '.rrx-req{color:#f2d28d}'
+    + '.rrx-field input{width:100%;min-height:50px;padding:0 16px;font-size:16px;font-family:inherit;'
+    +   'color:#f4f7fb;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:14px;transition:.2s ease}'
+    + '.rrx-field input::placeholder{color:rgba(184,196,216,.6)}'
+    + '.rrx-field input:focus{outline:none;border-color:#e5bb65;box-shadow:0 0 0 3px rgba(229,187,101,.18);background:rgba(255,255,255,.07)}'
+    + '.rrx-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:50px;'
+    +   'margin-top:4px;padding:0 20px;font-size:16px;font-weight:800;color:#07111f;border:1px solid transparent;'
+    +   'background:linear-gradient(135deg,#e5bb65,#f2d28d);border-radius:999px;box-shadow:0 18px 60px rgba(0,0,0,.28);cursor:pointer;transition:.2s ease}'
+    + '.rrx-btn:hover:not(:disabled){transform:translateY(-1px)}'
+    + '.rrx-btn:disabled{opacity:.65;cursor:not-allowed}'
+    + '.rrx-fine{margin:2px 0 0;font-size:13px;color:#b8c4d8}'
+    + '.rrx-msg{display:none;align-items:flex-start;gap:10px;margin:2px 0 0;padding:14px 16px;border-radius:14px;font-size:14px;font-weight:600}'
+    + '.rrx-msg.show{display:flex}'
+    + '.rrx-msg.ok{background:rgba(158,232,198,.12);border:1px solid rgba(158,232,198,.4);color:#9ee8c6}'
+    + '.rrx-msg.err{background:rgba(255,107,107,.12);border:1px solid rgba(255,107,107,.4);color:#ff9c9c}';
+
+  var html = ''
+    + '<div class="rrx-card">'
+    +   '<h2 class="rrx-title">Get instant access</h2>'
+    +   '<p class="rrx-sub">Fill out the form and we\'ll send both presentation decks plus the updated Crypto Workflow toolkit straight to your inbox.</p>'
+    +   '<form class="rrx-form" novalidate>'
+    +     '<label class="rrx-field"><span>Name <span class="rrx-req">*</span></span>'
+    +       '<input name="name" type="text" autocomplete="name" placeholder="Jane Doe" required></label>'
+    +     '<label class="rrx-field"><span>Company <span class="rrx-req">*</span></span>'
+    +       '<input name="company" type="text" autocomplete="organization" placeholder="Your firm or practice" required></label>'
+    +     '<label class="rrx-field"><span>Email <span class="rrx-req">*</span></span>'
+    +       '<input name="email" type="email" autocomplete="email" placeholder="you@example.com" required></label>'
+    +     '<label class="rrx-field"><span>Phone <span class="rrx-req">*</span></span>'
+    +       '<input name="phone" type="tel" autocomplete="tel" placeholder="(555) 123-4567" required></label>'
+    +     '<button class="rrx-btn" type="submit">Send Me the Bundle</button>'
+    +     '<div class="rrx-msg" role="status" aria-live="polite"></div>'
+    +     '<p class="rrx-fine">We respect your inbox. Your details are only used to deliver the bundle and occasional RevRex updates — unsubscribe anytime.</p>'
+    +   '</form>'
+    + '</div>';
+
+  var mount = document.getElementById("revrex-signup");
+  var styleTag = document.createElement("style");
+  styleTag.textContent = styles;
+  document.head.appendChild(styleTag);
+  mount.innerHTML = html;
+
+  var form = mount.querySelector("form");
+  var btn = form.querySelector(".rrx-btn");
+  var msg = form.querySelector(".rrx-msg");
+
+  function show(type, text) {
+    msg.className = "rrx-msg show " + (type === "ok" ? "ok" : "err");
+    msg.textContent = (type === "ok" ? "✓ " : "! ") + text;
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    var label = btn.textContent;
+    btn.textContent = "Sending…"; btn.disabled = true;
+    msg.className = "rrx-msg";
+
+    var payload = {
+      name: form.name.value.trim(),
+      company: form.company.value.trim(),
+      email: form.email.value.trim(),
+      phone: form.phone.value.trim()
+    };
+
+    fetch(REVREX_API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    })
+    .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+    .then(function (res) {
+      if (!res.ok || !res.d.ok) throw new Error((res.d && res.d.error) || "Something went wrong.");
+      btn.textContent = "Sent ✓";
+      show("ok", "Your bundle is on its way to " + payload.email + ".");
+      form.reset();
+      if (REDIRECT_AFTER) {
+        window.location.href = REDIRECT_AFTER
+          + "?email=" + encodeURIComponent(payload.email)
+          + "&name=" + encodeURIComponent(payload.name);
+      }
+    })
+    .catch(function (err) {
+      btn.textContent = label; btn.disabled = false;
+      show("err", err.message);
+    });
+  });
+})();
+</script>
+<!-- ===================  end RevRex signup form  =================== -->

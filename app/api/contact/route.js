@@ -11,6 +11,26 @@ const MAIL_FROM = process.env.MAIL_FROM || process.env.SMTP_USER;
 
 const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 
+// CORS — lets the form on your Hostinger landing page POST to this API.
+// Set ALLOWED_ORIGIN to your domain (e.g. https://revrex.com) to lock it down,
+// or leave unset to allow any origin (fine for a public signup form).
+const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || '*';
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Max-Age': '86400',
+};
+
+// JSON response with CORS headers attached.
+const json = (data, status = 200) =>
+  NextResponse.json(data, { status, headers: CORS_HEADERS });
+
+// Preflight handler (browsers send OPTIONS before a cross-origin JSON POST).
+export async function OPTIONS() {
+  return new Response(null, { status: 204, headers: CORS_HEADERS });
+}
+
 // Build the transport per-request: serverless functions are short-lived, so a
 // module-level singleton buys nothing and complicates cold starts.
 function makeTransport() {
@@ -30,7 +50,7 @@ export async function POST(request) {
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ ok: false, error: 'Invalid request body.' }, { status: 400 });
+    return json({ ok: false, error: 'Invalid request body.' }, 400);
   }
 
   const lead = {
@@ -41,16 +61,10 @@ export async function POST(request) {
   };
 
   if (!lead.name || !lead.company || !lead.email || !lead.phone) {
-    return NextResponse.json(
-      { ok: false, error: 'Name, company, email and phone are all required.' },
-      { status: 400 }
-    );
+    return json({ ok: false, error: 'Name, company, email and phone are all required.' }, 400);
   }
   if (!isEmail(lead.email)) {
-    return NextResponse.json(
-      { ok: false, error: 'Please provide a valid email address.' },
-      { status: 400 }
-    );
+    return json({ ok: false, error: 'Please provide a valid email address.' }, 400);
   }
 
   // Both downloads are served straight from the GitHub repo's /public folder
@@ -93,12 +107,9 @@ export async function POST(request) {
       });
     }
 
-    return NextResponse.json({ ok: true, message: 'Signup received — your bundle is on its way.' });
+    return json({ ok: true, message: 'Signup received — your bundle is on its way.' });
   } catch (err) {
     console.error('Email send failed:', err);
-    return NextResponse.json(
-      { ok: false, error: 'Could not send email. Please try again later.' },
-      { status: 500 }
-    );
+    return json({ ok: false, error: 'Could not send email. Please try again later.' }, 500);
   }
 }
