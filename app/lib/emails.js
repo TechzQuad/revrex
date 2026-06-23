@@ -26,11 +26,11 @@ function button(href, label, { primary = true } = {}) {
   return `
     <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 12px;">
       <tr>
-        <td align="center" style="border-radius:999px;${bg}">
+        <td align="center" style="border-radius:5px;${bg}">
           <a href="${esc(href)}" target="_blank"
              style="display:inline-block;padding:14px 28px;font-family:Arial,Helvetica,sans-serif;
                     font-size:15px;font-weight:800;line-height:1;text-decoration:none;
-                    color:inherit;border-radius:999px;">
+                    color:inherit;border-radius:5px;">
             ${esc(label)}
           </a>
         </td>
