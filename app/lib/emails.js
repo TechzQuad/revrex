@@ -110,6 +110,7 @@ export function leadNotificationEmail(lead, company) {
       ${row('Company', lead.company)}
       ${row('Email', lead.email)}
       ${row('Phone', lead.phone)}
+      ${row('Learn more?', lead.learnMore ? 'Yes — wants to learn more about RevRex' : 'No')}
     </table>
     <p style="margin:22px 0 0;color:${COLORS.muted};font-size:13px;line-height:1.6;">
       The contact has also been emailed their download links automatically.
@@ -127,7 +128,8 @@ export function leadNotificationEmail(lead, company) {
       `Name:    ${lead.name}\n` +
       `Company: ${lead.company}\n` +
       `Email:   ${lead.email}\n` +
-      `Phone:   ${lead.phone}\n\n` +
+      `Phone:   ${lead.phone}\n` +
+      `Learn more? ${lead.learnMore ? 'Yes' : 'No'}\n\n` +
       `The contact has been emailed their download links automatically.`,
   };
 }

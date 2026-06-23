@@ -103,6 +103,27 @@ body {
   background: rgba(255, 255, 255, 0.07);
 }
 
+.rr-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 2px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--rr-text);
+  cursor: pointer;
+}
+
+.rr-checkbox input {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--rr-gold);
+  cursor: pointer;
+}
+
 /* Button mirrors .btn / .btn-primary */
 .rr-submit {
   display: inline-flex;

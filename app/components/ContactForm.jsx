@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-const EMPTY = { name: '', company: '', email: '', phone: '' };
+const EMPTY = { name: '', company: '', email: '', phone: '', learnMore: false };
 
 export default function ContactForm() {
   const [form, setForm] = useState(EMPTY);
@@ -10,7 +10,11 @@ export default function ContactForm() {
   const [message, setMessage] = useState('');
 
   const handleChange = (e) =>
-    setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+    setForm((f) => ({
+      ...f,
+      [e.target.name]:
+        e.target.type === 'checkbox' ? e.target.checked : e.target.value,
+    }));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -109,6 +113,16 @@ export default function ContactForm() {
             placeholder="(555) 123-4567"
             required
           />
+        </label>
+
+        <label className="rr-checkbox">
+          <input
+            type="checkbox"
+            name="learnMore"
+            checked={form.learnMore}
+            onChange={handleChange}
+          />
+          <span>Yes, I'd like to learn more about RevRex.</span>
         </label>
 
         <button className="rr-submit" type="submit" disabled={status === 'loading'}>

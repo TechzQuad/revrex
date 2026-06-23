@@ -32,6 +32,8 @@
     +   'background:linear-gradient(135deg,#e5bb65,#f2d28d);border-radius:999px;box-shadow:0 18px 60px rgba(0,0,0,.28);cursor:pointer;transition:.2s ease}'
     + '.rrx-btn:hover:not(:disabled){transform:translateY(-1px)}'
     + '.rrx-btn:disabled{opacity:.65;cursor:not-allowed}'
+    + '.rrx-check{display:flex;align-items:flex-start;gap:10px;margin-top:2px;font-size:14px;font-weight:600;line-height:1.45;color:#f4f7fb;cursor:pointer}'
+    + '.rrx-check input{flex-shrink:0;width:20px;height:20px;margin:0;accent-color:#e5bb65;cursor:pointer}'
     + '.rrx-fine{margin:2px 0 0;font-size:13px;color:#b8c4d8}'
     + '.rrx-msg{display:none;align-items:flex-start;gap:10px;margin:2px 0 0;padding:14px 16px;border-radius:14px;font-size:14px;font-weight:600}'
     + '.rrx-msg.show{display:flex}'
@@ -51,6 +53,8 @@
     +       '<input name="email" type="email" autocomplete="email" placeholder="you@example.com" required></label>'
     +     '<label class="rrx-field"><span>Phone <span class="rrx-req">*</span></span>'
     +       '<input name="phone" type="tel" autocomplete="tel" placeholder="(555) 123-4567" required></label>'
+    +     '<label class="rrx-check"><input name="learnMore" type="checkbox">'
+    +       '<span>Yes, I\'d like to learn more about RevRex.</span></label>'
     +     '<button class="rrx-btn" type="submit">Send Me the Bundle</button>'
     +     '<div class="rrx-msg" role="status" aria-live="polite"></div>'
     +     '<p class="rrx-fine">We respect your inbox. Your details are only used to deliver the bundle and occasional RevRex updates — unsubscribe anytime.</p>'
@@ -83,7 +87,8 @@
       name: form.name.value.trim(),
       company: form.company.value.trim(),
       email: form.email.value.trim(),
-      phone: form.phone.value.trim()
+      phone: form.phone.value.trim(),
+      learnMore: form.learnMore.checked
     };
 
     fetch(REVREX_API, {

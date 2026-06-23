@@ -58,6 +58,7 @@ export async function POST(request) {
     company: (body.company || '').trim(),
     email: (body.email || '').trim(),
     phone: (body.phone || '').trim(),
+    learnMore: Boolean(body.learnMore),
   };
 
   if (!lead.name || !lead.company || !lead.email || !lead.phone) {
