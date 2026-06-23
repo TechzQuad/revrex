@@ -139,7 +139,7 @@ export function leadNotificationEmail(lead, company) {
 export function welcomeEmail(lead, company, links = {}) {
   const buttons =
     (links.presentations
-      ? button(links.presentations, '📊  Download Presentations (English &amp; Spanish)')
+      ? button(links.presentations, '📊  Download Presentations (English and Spanish)')
       : '') +
     (links.workflow ? button(links.workflow, '📦  Download Crypto Workflow Toolkit (ZIP)') : '');
 
