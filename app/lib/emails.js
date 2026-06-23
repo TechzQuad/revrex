@@ -21,7 +21,7 @@ const esc = (s = '') =>
 // Bulletproof, table-based button that works across email clients.
 function button(href, label, { primary = true } = {}) {
   const bg = primary
-    ? `background:linear-gradient(135deg,${COLORS.gold},${COLORS.gold2});color:#07111f;`
+    ? `background:linear-gradient(135deg,${COLORS.gold},${COLORS.gold2});color:#ffffff;`
     : `background:#142843;color:${COLORS.text};border:1px solid rgba(255,255,255,0.14);`;
   return `
     <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 12px;">
