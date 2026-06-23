@@ -105,20 +105,20 @@ body {
 
 .rr-checkbox {
   display: flex;
-  align-items: flex-start;
-  gap: 10px;
+  align-items: center;
+  gap: 12px;
   margin-top: 2px;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.45;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.4;
   color: var(--rr-text);
   cursor: pointer;
 }
 
 .rr-checkbox input {
   flex-shrink: 0;
-  width: 20px;
-  height: 20px;
+  width: 26px;
+  height: 26px;
   margin: 0;
   accent-color: var(--rr-gold);
   cursor: pointer;
