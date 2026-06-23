@@ -174,9 +174,17 @@ body {
 }
 
 .rr-message--success {
+  padding: 20px 22px;
+  font-size: 17px;
+  line-height: 1.5;
   background: rgba(158, 232, 198, 0.12);
   border: 1px solid rgba(158, 232, 198, 0.4);
   color: var(--rr-success);
+}
+
+.rr-message--success span[aria-hidden] {
+  font-size: 22px;
+  line-height: 1.3;
 }
 
 .rr-message--error {

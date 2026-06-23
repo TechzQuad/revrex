@@ -37,7 +37,7 @@
     + '.rrx-fine{margin:2px 0 0;font-size:13px;color:#b8c4d8}'
     + '.rrx-msg{display:none;align-items:flex-start;gap:10px;margin:2px 0 0;padding:14px 16px;border-radius:14px;font-size:14px;font-weight:600}'
     + '.rrx-msg.show{display:flex}'
-    + '.rrx-msg.ok{background:rgba(158,232,198,.12);border:1px solid rgba(158,232,198,.4);color:#9ee8c6}'
+    + '.rrx-msg.ok{padding:20px 22px;font-size:17px;line-height:1.5;background:rgba(158,232,198,.12);border:1px solid rgba(158,232,198,.4);color:#9ee8c6}'
     + '.rrx-msg.err{background:rgba(255,107,107,.12);border:1px solid rgba(255,107,107,.4);color:#ff9c9c}';
 
   var html = ''
@@ -100,7 +100,7 @@
     .then(function (res) {
       if (!res.ok || !res.d.ok) throw new Error((res.d && res.d.error) || "Something went wrong.");
       btn.textContent = "Sent ✓";
-      show("ok", "Your bundle is on its way to " + payload.email + ".");
+      show("ok", "Your bundle is on its way to " + payload.email + ". It should arrive in the next few minutes — if you don't see it, please check your spam or junk folder.");
       form.reset();
       if (REDIRECT_AFTER) {
         window.location.href = REDIRECT_AFTER

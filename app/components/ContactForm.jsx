@@ -32,8 +32,7 @@ export default function ContactForm() {
       if (res.ok && data.ok) {
         setStatus('success');
         setMessage(
-          data.message ||
-            `Your bundle is on its way to ${form.email}. Check your inbox shortly.`
+          `Your bundle is on its way to ${form.email}. It should arrive in the next few minutes — if you don't see it, please check your spam or junk folder.`
         );
         setForm(EMPTY);
       } else {
