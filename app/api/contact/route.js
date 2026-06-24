@@ -68,10 +68,15 @@ export async function POST(request) {
     return json({ ok: false, error: 'Please provide a valid email address.' }, 400);
   }
 
+  // Both downloads are served from the GitHub repo's /public folder via
+  // raw.githubusercontent.com. NOTE: requires the repo to be PUBLIC.
+  // Either env var can override these.
+  const GH_RAW = 'https://raw.githubusercontent.com/TechzQuad/revrex/main/public';
+
   // Download links for the bundle delivery email (set in .env / Vercel to override).
   const links = {
-    presentations: process.env.PRESENTATIONS_URL || 'http://reports.wyzdigital.com/presentation.zip',
-    workflow: process.env.WORKFLOW_ZIP_URL || 'http://reports.wyzdigital.com/crypto-bundle.zip',
+    presentations: process.env.PRESENTATIONS_URL || `${GH_RAW}/presentation.zip`,
+    workflow: process.env.WORKFLOW_ZIP_URL || `${GH_RAW}/crypto-bundle.zip`,
   };
 
   try {
