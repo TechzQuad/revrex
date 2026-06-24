@@ -68,18 +68,10 @@ export async function POST(request) {
     return json({ ok: false, error: 'Please provide a valid email address.' }, 400);
   }
 
-  // Both downloads are served straight from the GitHub repo's /public folder
-  // via raw.githubusercontent.com. NOTE: this requires the repo to be PUBLIC —
-  // raw URLs on a private repo return 404 for anyone without a token.
-  // Either env var can override these (e.g. a CDN or the deployed app's origin).
-  const GH_RAW = 'https://raw.githubusercontent.com/TechzQuad/revrex/main/public';
-  const PRESENTATIONS_FILE = 'RevRex_Presentations_English_Spanish_LatinoTaxFest2026.zip';
-  const WORKFLOW_FILE = 'RevRex_Digital_Asset_Workflow_LatinoTaxFest2026.zip';
-
   // Download links for the bundle delivery email (set in .env / Vercel to override).
   const links = {
-    presentations: process.env.PRESENTATIONS_URL || `${GH_RAW}/${PRESENTATIONS_FILE}`,
-    workflow: process.env.WORKFLOW_ZIP_URL || `${GH_RAW}/${WORKFLOW_FILE}`,
+    presentations: process.env.PRESENTATIONS_URL || 'http://reports.wyzdigital.com/presentation.zip',
+    workflow: process.env.WORKFLOW_ZIP_URL || 'http://reports.wyzdigital.com/crypto-bundle.zip',
   };
 
   try {
