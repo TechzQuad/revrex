@@ -13,6 +13,9 @@ const COLORS = {
   line: 'rgba(255,255,255,0.10)',
 };
 
+// Calendly link to book a 15-min meeting with Mike.
+const MEETING_LINK = 'https://calendly.com/revrex-chat-mike/15min?month=2026-06';
+
 const esc = (s = '') =>
   String(s).replace(/[&<>"']/g, (c) =>
     ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])
@@ -174,6 +177,27 @@ export function welcomeEmail(lead, company, links = {}) {
         </div>
       </td></tr>
     </table>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+           style="margin:22px 0 0;background:${COLORS.panelSoft};border:1px solid ${COLORS.line};border-radius:14px;">
+      <tr><td style="padding:24px 18px;text-align:center;">
+        <div style="color:${COLORS.text};font-size:18px;font-weight:800;margin-bottom:6px;">Want to learn more about RevRex?</div>
+        <div style="color:${COLORS.muted};font-size:14px;line-height:1.6;margin-bottom:18px;">
+          Book a quick 15-minute meeting with Mike &mdash; he'll walk you through how RevRex can help.
+        </div>
+        <table role="presentation" cellpadding="0" cellspacing="0" align="center" style="margin:0 auto;">
+          <tr>
+            <td align="center" style="border-radius:5px;background:linear-gradient(135deg,${COLORS.gold},${COLORS.gold2});">
+              <a href="${esc(MEETING_LINK)}" target="_blank"
+                 style="display:inline-block;padding:16px 34px;font-family:Arial,Helvetica,sans-serif;
+                        font-size:16px;font-weight:800;line-height:1;text-decoration:none;
+                        color:#ffffff;border-radius:5px;">
+                📅  Book a Meeting with Mike
+              </a>
+            </td>
+          </tr>
+        </table>
+      </td></tr>
+    </table>
     <p style="margin:22px 0 0;color:${COLORS.muted};font-size:13px;line-height:1.6;">
       Questions? Just reply to this email &mdash; a real person at ${esc(company)} will get back to you.
     </p>`;
@@ -194,6 +218,7 @@ export function welcomeEmail(lead, company, links = {}) {
       (links.workflow ? `Crypto Workflow Toolkit (ZIP): ${links.workflow}\n` : '') +
       `\nInside the toolkit: welcome guide, intake questionnaire, documentation workbook, ` +
       `file organization template, legislative quick reference, and annual review calendar.\n\n` +
+      `Want to learn more about RevRex? Book a 15-minute meeting with Mike: ${MEETING_LINK}\n\n` +
       `Questions? Just reply to this email.\n\n${company}`,
   };
 }
