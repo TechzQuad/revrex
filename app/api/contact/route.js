@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import { leadNotificationEmail, welcomeEmail } from '@/app/lib/emails';
+import { saveLead } from '@/app/lib/db';
 
 // Nodemailer needs the Node.js runtime (not Edge), and we never want this cached.
 export const runtime = 'nodejs';
@@ -78,6 +79,15 @@ export async function POST(request) {
     presentations: process.env.PRESENTATIONS_URL || `${GH_RAW}/presentation.zip`,
     workflow: process.env.WORKFLOW_ZIP_URL || `${GH_RAW}/crypto-bundle.zip`,
   };
+
+  // Persist the submission first so a lead is never lost, even if email
+  // delivery later fails. A database hiccup shouldn't block the signup, so we
+  // log and continue rather than erroring the request.
+  try {
+    await saveLead(lead);
+  } catch (err) {
+    console.error('Failed to save lead to database:', err);
+  }
 
   try {
     const transporter = makeTransport();
